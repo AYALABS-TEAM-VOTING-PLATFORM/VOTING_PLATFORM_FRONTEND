@@ -5,6 +5,10 @@ import Login from "./pages/login";
 import "./index.css";
 import Home from "./pages/Home/Home";
 import Register from "./pages/register";
+import Voters from "./pages/Voters/Voters";
+import Candidates from "./pages/Candidates/Candidate";
+import Elections from "./pages/Elections/Elections";
+import ElectionDetails from "./pages/ElectionDetails/ElectionDetails";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -16,7 +20,7 @@ function App() {
     },
     {
       path: "/login",
-      element: <Login />, 
+      element: <Login />,
     },
     {
       path: "/register",
@@ -27,16 +31,20 @@ function App() {
       element: <Home />,
     },
     {
-      path: "/vote",
-      element: <Home />,
+      path: "/voters",
+      element: <Voters />,
     },
     {
       path: "/candidates",
-      element: <Home />,
+      element: <Candidates />,
     },
     {
       path: "/elections",
-      element: <Home />,
+      element: <Elections />,
+    },
+    {
+      path: "/election-details",
+      element: <ElectionDetails />,
     },
   ]);
 

@@ -26,6 +26,10 @@ const Cardidate = () => {
           <h3>POSITION : </h3>
           <h3>GOVERNORSHIP ELECTION</h3>
         </div>
+        <div className="texts flex justify-between">
+          <h3>VOTERS : </h3>
+          <h3>21</h3>
+        </div>
       </div>
       <div className="buttons flex justify-center mt-4">
         <div className="mr-2">
@@ -42,7 +46,7 @@ const Cardidate = () => {
 export default Cardidate;
 
 const Main = styled.div`
-  height: 50vh;
+  /* height: 80vh; */
   outline: 2px solid cadetblue;
   padding: 20px;
   border-top-left-radius: 15px;
