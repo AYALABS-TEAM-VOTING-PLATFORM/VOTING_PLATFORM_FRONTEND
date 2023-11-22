@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Navbar from "../../Components/Navbar";
+import Navbar from "../../components/Navbar";
 import Hero from "../../sections/Home/Hero";
 import Notice from "../../sections/Home/Notice";
 import CurrentCandidate from "../../sections/Home/CurrentCandidate";

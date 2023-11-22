@@ -1,7 +1,7 @@
 import { Button, NftCard } from "@web3uikit/core";
 import React, { useState } from "react";
 import styled from "styled-components";
-import Cardidate from "../../Components/Cardidate";
+import Cardidate from "../../components/Cardidate";
 
 const CurrentCandidate = () => {
   const [length, setLength] = useState(3);
