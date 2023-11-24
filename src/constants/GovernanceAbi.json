@@ -1,0 +1,715 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_owner",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [],
+    "name": "VotingEnded",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      }
+    ],
+    "name": "AddVoter",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "electionId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "candidateId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "string",
+        "name": "_year",
+        "type": "string"
+      }
+    ],
+    "name": "CandidateAdded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "string",
+        "name": "year",
+        "type": "string"
+      },
+      {
+        "indexed": true,
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "_electionId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_startDate",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_endDate",
+        "type": "uint256"
+      }
+    ],
+    "name": "CreatedElection",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "string",
+        "name": "year",
+        "type": "string"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "electionId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "endDate",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "status",
+        "type": "bool"
+      }
+    ],
+    "name": "ElectionStatusChanged",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "string",
+        "name": "year",
+        "type": "string"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "electionId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_tokenAddr",
+        "type": "address"
+      }
+    ],
+    "name": "MintedToken",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      }
+    ],
+    "name": "VerifiedVoter",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "string",
+        "name": "year",
+        "type": "string"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "electionId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "tokenAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint32",
+        "name": "value",
+        "type": "uint32"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "startDate",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "endDate",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "candidateId",
+        "type": "uint256"
+      }
+    ],
+    "name": "VotedSuccessfully",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "addVoter",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "year",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "electionId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "endDate",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "status",
+        "type": "bool"
+      }
+    ],
+    "name": "changeElectionStatusToStarted",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "year",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_electionId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_startDate",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_endDate",
+        "type": "uint256"
+      }
+    ],
+    "name": "creatElection",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "year",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "candidateId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "imageURI",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "position",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "about",
+        "type": "string"
+      }
+    ],
+    "name": "createCandidate",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAllCondidates",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "imageURI",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "position",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "about",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "noOfVoters",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address[]",
+            "name": "votersAddresses",
+            "type": "address[]"
+          },
+          {
+            "internalType": "uint256",
+            "name": "ID",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct Governance.Candidate[]",
+        "name": "_candidates",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAllElections",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "startDate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "endDate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address[]",
+            "name": "voters",
+            "type": "address[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "candidates",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "bool",
+            "name": "ongoing",
+            "type": "bool"
+          },
+          {
+            "internalType": "address[]",
+            "name": "minters",
+            "type": "address[]"
+          },
+          {
+            "internalType": "uint256",
+            "name": "ID",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct Governance.Election[]",
+        "name": "_allelections",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAllVoters",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "voterAddr",
+            "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "verified",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct Governance.Voter[]",
+        "name": "_allVoters",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "candidateId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "year",
+        "type": "string"
+      }
+    ],
+    "name": "getCandidatesForAYear",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "imageURI",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "position",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "about",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "noOfVoters",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address[]",
+            "name": "votersAddresses",
+            "type": "address[]"
+          },
+          {
+            "internalType": "uint256",
+            "name": "ID",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct Governance.Candidate",
+        "name": "_candidates",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "electionId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "year",
+        "type": "string"
+      }
+    ],
+    "name": "getElection",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "startDate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "endDate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address[]",
+            "name": "voters",
+            "type": "address[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "candidates",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "bool",
+            "name": "ongoing",
+            "type": "bool"
+          },
+          {
+            "internalType": "address[]",
+            "name": "minters",
+            "type": "address[]"
+          },
+          {
+            "internalType": "uint256",
+            "name": "ID",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct Governance.Election",
+        "name": "_election",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "voterAddress",
+        "type": "address"
+      }
+    ],
+    "name": "getVoter",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "voterAddr",
+            "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "verified",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct Governance.Voter",
+        "name": "_voter",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "year",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_electionId",
+        "type": "uint256"
+      }
+    ],
+    "name": "hasMinted",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "isVerified",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "year",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_electionId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_tokenAddr",
+        "type": "address"
+      }
+    ],
+    "name": "mint",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "verifyVoter",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "year",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "electionId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "tokenAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint32",
+        "name": "value",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "startDate",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "endDate",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "candidateId",
+        "type": "uint256"
+      }
+    ],
+    "name": "vote",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

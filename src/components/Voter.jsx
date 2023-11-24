@@ -14,6 +14,7 @@ const Voter = () => {
         </div>
         <h2>0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045</h2>
         {/* <p>Minted ✅ </p> */}
+        {/* <p>VERIFIED ✅ </p> */}
       </div>
       <div>
         <Button theme="translucent" text="VIEW ON EXPLORER" />

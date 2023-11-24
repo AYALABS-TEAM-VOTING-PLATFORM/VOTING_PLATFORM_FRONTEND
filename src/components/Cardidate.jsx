@@ -32,9 +32,9 @@ const Cardidate = () => {
         </div>
       </div>
       <div className="buttons flex justify-center mt-4">
-        <div className="mr-2">
+        {/* <div className="mr-2">
           <Button text="MINT" theme="outline" />
-        </div>
+        </div> */}
         <div className="ml-2">
           <Button text="VOTE" theme="outline" />
         </div>

@@ -1,19 +1,36 @@
 import { Button } from "@web3uikit/core";
+import { ConnectButton } from "@web3uikit/web3";
 // import { ConnectButton } from "@web3uikit/web3";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
   return (
     <Main>
       <ul>
-        <li>HOME</li>
-        <li>VOTE</li>
-        <li>CANDIDATES</li>
-        <li>MINT/ELECTIONS</li>
-        <Button theme="translucent" type="button" text="LOG IN" />
+        <Link to="/">
+          <li>HOME</li>
+        </Link>
+        <Link to="/voters">
+          <li>VOTE</li>
+        </Link>{" "}
+        <Link to="/candidates">
+          <li>CANDIDATES</li>
+        </Link>
+        <Link to="/elections">
+          <li>MINT/ELECTIONS</li>
+        </Link>
+        <Button
+          theme="translucent"
+          type="button"
+          text="LOG IN"
+          onClick={() => navigate("/login")}
+        />
         <li>
-          <Button theme="outline" type="button" text="CONNECT WALLET" />
+          <ConnectButton />
         </li>
       </ul>
     </Main>
@@ -29,6 +46,7 @@ const Main = styled.div`
   align-items: center;
   position: absolute;
   width: 100%;
+  z-index: 222222222;
 
   ul {
     display: flex;
