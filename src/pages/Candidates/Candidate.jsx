@@ -4,9 +4,24 @@ import styled from "styled-components";
 import Board from "../../components/Board";
 import { Button } from "@web3uikit/core";
 import Cardidate from "../../Components/Cardidate";
+import { _getCandidates } from "../../constants/_helperFunctions";
 
 const Candidates = () => {
   const [length, setLength] = useState(3);
+  const [candidates, setCandidates] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const _getAllCandidates = async () => {
+    setLoading(true);
+    const data = await _getCandidates();
+    console.log(data);
+    setCandidates(data);
+    setLoading(false);
+  };
+
+  // useEffect(() => {
+  // _getAllCandidates()
+  // }, [])
 
   return (
     <Main>

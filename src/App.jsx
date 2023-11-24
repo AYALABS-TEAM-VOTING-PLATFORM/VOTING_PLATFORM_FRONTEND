@@ -9,9 +9,11 @@ import Voters from "./pages/Voters/Voters";
 import Candidates from "./pages/Candidates/Candidate";
 import Elections from "./pages/Elections/Elections";
 import ElectionDetails from "./pages/ElectionDetails/ElectionDetails";
+import { useMoralis } from "react-moralis";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const { account } = useMoralis();
 
   const router = createBrowserRouter([
     {
@@ -24,7 +26,11 @@ function App() {
     },
     {
       path: "/",
-      element: <Home />,
+      element: (
+        <PrivateRoute>
+          <Home />
+        </PrivateRoute>
+      ),
     },
     {
       path: "/voters",
@@ -39,7 +45,7 @@ function App() {
       element: <Elections />,
     },
     {
-      path: "/election-details",
+      path: "/election-details/:id",
       element: <ElectionDetails />,
     },
   ]);

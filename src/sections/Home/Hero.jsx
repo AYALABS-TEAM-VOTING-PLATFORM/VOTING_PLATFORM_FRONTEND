@@ -2,8 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import image from "../../assets/img.jpg";
 import { Button } from "@web3uikit/core";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
+  const navigate = useNavigate();
+
   return (
     <Main>
       <img src={image} alt="img" srcset="" />
@@ -22,6 +25,7 @@ const Hero = () => {
               type="button"
               text="START VOTING!"
               size="large"
+              onClick={() => navigate("/elections")}
             />
           </div>
           <Button theme="link" type="button" text="LEARN MORE" size="large" />
