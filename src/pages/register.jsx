@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/button";
 import { useEffect, useState } from "react";
-import { _signInVoter } from "../constants/_helperFunctions";
+import { _addVoter, _signInVoter } from "../constants/_helperFunctions";
 import { useNotification } from "@web3uikit/core";
 import { useMoralis } from "react-moralis";
 import { ConnectButton } from "@web3uikit/web3";
@@ -64,6 +64,7 @@ export default function Register() {
     }
 
     await _signInVoter({ ...formData, navigate });
+    // await _addVoter();
     setLoading(false);
   };
 

@@ -14,9 +14,9 @@ const CurrentCandidate = () => {
         </p>
       </div>
       <div className="candidates grid lg:grid-cols-3 gap-12 mt-8">
-        {Array.from({ length }, (index) => index + 1).map((val) => (
+        {/* {Array.from({ length }, (index) => index + 1).map((val) => (
           <Cardidate />
-        ))}
+        ))} */}
       </div>
       <div className="mt-6 flex justify-center">
         <Button theme="outline" type="button" text="VIEW MORE" size="large" />

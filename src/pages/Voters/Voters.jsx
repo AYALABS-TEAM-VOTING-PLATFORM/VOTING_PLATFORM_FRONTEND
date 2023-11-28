@@ -9,10 +9,12 @@ import { _getVotersAll } from "../../constants/_helperFunctions";
 
 const Voters = () => {
   const [voters, setVoters] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const _getVoters = async () => {
-    const data = await _getVotersAll();
+    const data = await _getVotersAll({ loading, setLoading });
     console.log(data);
+    setVoters([...data]);
   };
 
   useEffect(() => {
@@ -26,9 +28,11 @@ const Voters = () => {
         desc="All voters ready or already casted their votes"
       />
       <div className="flex flex-col p-8">
-        {[1, 3, 4, 5, 6, 6].map((val, i) => (
-          <Voter key={i} />
-        ))}
+        {voters.length == 0 ? (
+          <div>No Voter</div>
+        ) : (
+          voters?.map((val, i) => <Voter key={i} address={val["0"]} />)
+        )}
       </div>
       <Footer />
     </Main>

@@ -1,10 +1,22 @@
 import { ethers } from "ethers";
-import { PROVIDER, governanceAddres } from "./addresses";
+import { PROVIDER, governanceAddres, governanceERC20Addres } from "./addresses";
 import governanceABI from "./GovernanceAbi.json";
+import governanceTokenABI from "./GovernanceTokenABI.json";
 import axios from "axios";
+let CONTRACT, CONTRACT2;
 
-let provider = new ethers.JsonRpcProvider(PROVIDER);
-let CONTRACT = new ethers.Contract(governanceAddres, governanceABI, provider);
+async function connect() {
+  const provider = new ethers.BrowserProvider(window.ethereum);
+  await provider.send("eth_requestAccounts", []);
+  const signer = await provider.getSigner();
+  CONTRACT = new ethers.Contract(governanceAddres, governanceABI, signer);
+  CONTRACT2 = new ethers.Contract(
+    governanceERC20Addres,
+    governanceTokenABI,
+    signer
+  );
+}
+connect();
 
 const _errorFunc = ({ error, message, setLoading, loading }) => {
   //   console.log(error);
@@ -83,8 +95,29 @@ export const _getElection = async ({
 }) => {
   try {
     // Now you can call the functions of the CONTRACT
-    let election = await CONTRACT.getAllElection(electionId, year);
+    let election = await CONTRACT.getElection(electionId, year);
     return election;
+  } catch (error) {
+    console.log(error);
+    _errorFunc({
+      error: error,
+      message: "Something occured",
+      loading,
+      setLoading,
+    });
+  }
+};
+
+export const _getCandidate = async ({
+  loading,
+  setLoading,
+  candidateId,
+  year,
+}) => {
+  try {
+    // Now you can call the functions of the CONTRACT
+    let candidate = await CONTRACT.getCandidatesForAYear(candidateId, year);
+    return candidate;
   } catch (error) {
     console.log(error);
     _errorFunc({
@@ -112,10 +145,10 @@ export const _hasMinted = async ({ loading, setLoading, electionId, year }) => {
   }
 };
 
-export const _isVerified = async ({ loading, setLoading }) => {
+export const _isVerified = async ({ loading, setLoading, address }) => {
   try {
     // Now you can call the functions of the CONTRACT
-    let verifiedBool = await CONTRACT.isVerified();
+    let verifiedBool = await CONTRACT.isVerified(address);
     return verifiedBool;
   } catch (error) {
     console.log(error);
@@ -138,19 +171,23 @@ export const _vote = async ({
   startDate,
   endDate,
   candidateId,
+  owner,
 }) => {
   try {
     // Now you can call the functions of the CONTRACT
-    await CONTRACT.vote(
+
+    const tx = await CONTRACT2.approve(governanceAddres, value);
+
+    await approve({
       year,
       electionId,
       tokenAddress,
-      value,
+      value: value.toString(),
       startDate,
       endDate,
-      candidateId
-    );
-    return true;
+      candidateId,
+      owner,
+    });
   } catch (error) {
     console.log(error);
     _errorFunc({
@@ -162,6 +199,54 @@ export const _vote = async ({
     return false;
   }
 };
+
+async function approve({
+  year,
+  electionId,
+  tokenAddress,
+  value,
+  startDate,
+  endDate,
+  candidateId,
+  owner,
+}) {
+  console.log("sskskskksk");
+  const allowance = await CONTRACT2.allowance(owner, governanceAddres);
+  console.log(
+    year,
+    electionId,
+    tokenAddress,
+    value,
+    startDate,
+    endDate,
+    candidateId
+  );
+  if (parseInt(allowance.toString()) > 0) {
+    await CONTRACT.vote(
+      year,
+      electionId,
+      tokenAddress,
+      value,
+      startDate,
+      endDate,
+      candidateId
+    );
+    return true;
+  } else {
+    setInterval(() => {
+      approve({
+        year,
+        electionId,
+        tokenAddress,
+        value,
+        startDate,
+        endDate,
+        candidateId,
+        owner,
+      });
+    }, 5000);
+  }
+}
 
 export const _addVoter = async ({ loading, setLoading }) => {
   try {
@@ -186,18 +271,27 @@ export const _mint = async ({
   _tokenAddr,
   loading,
   setLoading,
+  setError,
+  userAddress,
 }) => {
   try {
     // Now you can call the functions of the CONTRACT
-    await CONTRACT.mint(year, _electionId, _tokenAddr);
+    await CONTRACT2.mint(
+      year,
+      parseInt(_electionId),
+      governanceAddres,
+      userAddress
+    );
     return true;
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
+    setError("Something Went wrong");
     _errorFunc({
       error: error,
       message: "Something occured",
       loading,
       setLoading,
+      setError,
     });
     return false;
   }
@@ -308,7 +402,8 @@ export const _addCandidate = async ({
   }
 };
 
-const API = `http://localhost:3001/api`;
+// const API = `http://localhost:3001/api`;
+const API = "https://voting-platform-server3.onrender.com/api";
 
 ///////////////////////////// API'S //////////////////////////////
 export const _signInVoter = async ({
@@ -324,6 +419,8 @@ export const _signInVoter = async ({
   setError,
 }) => {
   try {
+    await _addVoter({ loading, setLoading });
+
     const response = await axios.post(`${API}/voter/sign-up`, {
       voterWalletAddress,
       fullName,

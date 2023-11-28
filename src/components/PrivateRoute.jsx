@@ -7,12 +7,12 @@ const PrivateRoute = ({ children }) => {
   const history = useLocation();
   const { account } = useMoralis();
   const user = JSON.parse(localStorage.getItem("user"));
-  let voterWalletAddress = user.voter.voterWalletAddress;
+  let voterWalletAddress = user?.voter?.voterWalletAddress;
 
   if (voterWalletAddress != account) {
     return <Navigate to={`/login`} state={{ from: history.location }} />;
   }
-  if (!user.voter) {
+  if (!user?.voter) {
     return <Navigate to="/login" state={{ from: history.location }} />;
   }
 

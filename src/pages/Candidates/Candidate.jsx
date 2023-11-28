@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import styled from "styled-components";
 import Board from "../../components/Board";
@@ -7,30 +7,39 @@ import Cardidate from "../../Components/Cardidate";
 import { _getCandidates } from "../../constants/_helperFunctions";
 
 const Candidates = () => {
-  const [length, setLength] = useState(3);
   const [candidates, setCandidates] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const _getAllCandidates = async () => {
     setLoading(true);
-    const data = await _getCandidates();
-    console.log(data);
-    setCandidates(data);
+    const data = await _getCandidates({ loading, setLoading });
+    setCandidates([...data]);
     setLoading(false);
   };
 
-  // useEffect(() => {
-  // _getAllCandidates()
-  // }, [])
+  useEffect(() => {
+    _getAllCandidates();
+  }, []);
 
   return (
     <Main>
       <Navbar />
       <Board text={"CANDIDATES"} />
       <div className="candidates grid lg:grid-cols-3 gap-12 mt-8">
-        {[1, 2, 3, 4, 5].map((val) =>
-          Array.from({ length }, (index) => index + 1).map((val) => (
-            <Cardidate />
+        {candidates.length == 0 ? (
+          <div>No Data</div>
+        ) : (
+          candidates.map((val, i) => (
+            <Cardidate
+              key={i}
+              name={val["0"]}
+              image={val["1"]}
+              year={val["7"]}
+              position={val["2"]}
+              about={val["3"]}
+              id={val["6"].toString()}
+              voters={val["4"].toString()}
+            />
           ))
         )}
       </div>
